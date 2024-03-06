@@ -1,0 +1,50 @@
+.single-photodetails{
+    width: 60%;
+    display: flex;
+    gap: 30px;
+    margin: 100px auto;
+}
+
+.photodetails-text {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.photodetails-text div div {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 20px;
+}
+
+.photodetails-text-title{
+    display: block;
+    font-size: 20px;
+    font-weight: 500;
+    max-width: 150px;
+    width: 100%;
+}
+.photodetails-text-field {
+    display: block;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.photodetails-description {
+    width: 100%;
+}
+
+.photodetails-description button{
+    background-color: purple;
+    border: transparent;
+    padding: 10px 15px;
+    color: #faf7f3;
+    width: 200px;
+    margin: 20px 0px 0px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 400;
+}
+.photodetails-description button:hover {
+    cursor: pointer;
+}

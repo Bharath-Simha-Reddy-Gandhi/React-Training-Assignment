@@ -1,0 +1,41 @@
+.editphotoform{
+    display: flex;
+    flex-direction: column;
+}
+.editphotoform div {
+    padding-bottom: 20px;
+    display: flex;
+}
+
+.editphotoform label {
+    font-size: 20px;
+    font-weight: 500;
+    width: 150px;
+}
+
+.editphotoform input,.editphotoform textarea {
+    padding: 10px;
+}
+
+
+.editphotoform button {
+    background-color: purple;
+    border-color: transparent;
+    padding: 10px 15px;
+    color: #faf7f3;
+    width: fit-content;
+    margin: 20px 0px 0px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.editphotoform .cancel-button {
+    background-color: #ccc;
+    border-color: black;
+    color: black;
+}
+
+.editphotoform button:hover {
+    cursor: pointer;
+}

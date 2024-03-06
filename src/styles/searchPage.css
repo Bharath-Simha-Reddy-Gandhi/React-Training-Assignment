@@ -1,0 +1,12 @@
+.search-page .user-select-options {
+    width: 80%;
+    margin: 70px auto 0px;
+}
+
+.pagination-buttons {
+    width: 80%;
+    margin: 50px auto 100px ;
+    display: flex;
+    justify-content: center;
+    column-gap: 20px;
+}
