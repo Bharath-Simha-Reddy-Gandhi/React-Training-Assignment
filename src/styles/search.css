@@ -10,3 +10,26 @@
     width: 100%;
     height: 300px;
 }
+
+.add-collection{
+    background: transparent;
+    border: transparent;
+}
+.add-collection:hover{
+    cursor: pointer;
+}
+.add-collection svg{
+height: 24px;
+}
+
+.like-dislike-buttons button{
+    background: transparent;
+    border: transparent;
+}
+.like-dislike-buttons button:hover{
+    cursor: pointer;
+}
+
+.like-dislike-buttons button svg{
+    height: 24px;
+}

@@ -19,6 +19,7 @@ export const Login = (props) => {
       const data = await response.json();
       const accessToken = data.access_token;
       sessionStorage.setItem("accessToken", accessToken);
+      userDetails();
       props.setTriggerRandomImage((prev) => !prev);
       navigate("/");
     } else {
@@ -29,6 +30,14 @@ export const Login = (props) => {
       );
     }
   };
+  const userDetails = async () =>{
+    const response = await ApiCalls.getProfileDetail()
+    if(response.ok){
+      const resposneData= await response.json()
+      sessionStorage.setItem("userID",resposneData.id);
+      sessionStorage.setItem("userName",resposneData.username);
+    }
+  }
 
   const handleLogin = () => {
     window.location.href = authorizationUrl;
@@ -36,6 +45,8 @@ export const Login = (props) => {
 
   const handleLogOut = () => {
     sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("userID");
+    sessionStorage.removeItem("userName");
     navigate("/");
     window.location.reload();
   };

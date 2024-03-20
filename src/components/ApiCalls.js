@@ -26,13 +26,29 @@ export const ApiCalls = {
     });
   },
 
-  userSelectedInput: async (userData, userSelected, page) => {
+  getPublicUserProfile: async (username) =>{
+    let headerAuth =
+    auth !== null
+      ? `Bearer ${sessionStorage.getItem("accessToken")}`
+      : `Client-ID ${process.env.REACT_APP_CLIENT_ID}`;
+      console.log(headerAuth)
+    return await fetch(`${Constants.api_url}/users/${username}`, {
+      headers: {
+        Authorization: headerAuth,
+      },
+    });
+  },
 
+  userSelectedInput: async (userData, userSelected, page) => {
+    let headerAuth =
+    auth !== null
+      ? `Bearer ${sessionStorage.getItem("accessToken")}`
+      : `Client-ID ${process.env.REACT_APP_CLIENT_ID}`;
     return await fetch(
-      `${Constants.api_url}/users/${userData.username}/${userSelected}?page=${page}`,
+      `${Constants.api_url}/users/${userData}/${userSelected}?page=${page}`,
       {
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+          Authorization: headerAuth,
         },
       }
     );
@@ -51,4 +67,3 @@ export const ApiCalls = {
   }
 
 };
-// export {exchangeAuthCode,getPhotoList,getProfileDetail,userSelectedInput,likeUnlikePhotos,getPhotoDetails,updatePhotoDetails,handleEditProfile}

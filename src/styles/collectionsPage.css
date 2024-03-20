@@ -1,0 +1,10 @@
+.collection-photo-comp{
+    /* margin:100px auto 50px; */
+}
+.collection-photos{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 20px;
+    margin:100px auto 50px;
+    width: 80%;
+}
