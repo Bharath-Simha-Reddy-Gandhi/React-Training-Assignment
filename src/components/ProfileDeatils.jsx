@@ -10,15 +10,17 @@ import { UserLikedPhotos } from "./UserLikedPhotos";
 import { SelectedCollections } from "./SelectedCollections";
 import { SelectedStats } from "./SelectedStats";
 
-export const ProfileDeatils = () => {
-  const [userData, setUserData] = useState();
+export const ProfileDeatils = (props) => {
+  console.log(props.username);
+  const [userData, setUserData] = useState("");
   const [userDataLoading, setUserDataLoading] = useState(false);
   const [userSelected, setUserSelected] = useState("photos");
-  const [userSelectedInfo, setUserSelectedInfo] = useState();
+  const [userSelectedInfo, setUserSelectedInfo] = useState()
   const [userSelectedInfoLoading, setUserSelectedInfoLoading] = useState(false);
   const [editState, setEditState] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  console.log(!props.username);
 
   const getProfileDetails = async () => {
     const userProfileResponse = await ApiCalls.getProfileDetail();
@@ -26,7 +28,18 @@ export const ProfileDeatils = () => {
       const userProfile = await userProfileResponse.json();
       setUserData(userProfile);
       setUserDataLoading(true);
-      userSelectedInformation(userProfile, userSelected, page);
+      userSelectedInformation(userProfile.username, userSelected, page);
+    }
+  };
+  const getPublicUserProfile = async () => {
+    const userProfileResponse = await ApiCalls.getPublicUserProfile(
+      props.username
+    );
+    if (userProfileResponse.ok) {
+      const userProfile = await userProfileResponse.json();
+      setUserData(userProfile);
+      setUserDataLoading(true);
+      userSelectedInformation(props.username, userSelected, page);
     }
   };
 
@@ -53,14 +66,18 @@ export const ProfileDeatils = () => {
         );
       }
     },
-    [userData, page]
+    [page,setUserSelectedInfo,userData]
   );
 
   const handleUserSelected = (items) => {
     setPage(1);
     setUserSelected(items);
     setUserSelectedInfoLoading(false);
-    userSelectedInformation(userData, Constants.userPhoColSta[items], page);
+    userSelectedInformation(
+      userData.username,
+      Constants.userPhoColSta[items],
+      page
+    );
   };
 
   const handleLikes = async (photoId, photoLikeStatus) => {
@@ -73,7 +90,7 @@ export const ProfileDeatils = () => {
       if (response.ok) {
         const responseData = await response.json();
         alert("Unliked the image");
-        await userSelectedInformation(userData, userSelected, page);
+        userSelectedInformation(userData.username, userSelected, page);
       }
     } catch (error) {
       alert("Error:", error.message);
@@ -81,10 +98,18 @@ export const ProfileDeatils = () => {
   };
 
   useEffect(() => {
-    if (!userData) {
-      getProfileDetails();
+    if (!props.username) {
+      if (!userData) {
+        getProfileDetails();
+      } else {
+        userSelectedInformation(userData.username, userSelected, page);
+      }
     } else {
-      userSelectedInformation(userData, userSelected, page);
+      if (!userData) {
+        getPublicUserProfile();
+      } else {
+        userSelectedInformation(props.username, userSelected, page);
+      }
     }
   }, [page]);
 
@@ -109,14 +134,16 @@ export const ProfileDeatils = () => {
                 </h1>
               </div>
             </div>
-            <button
-              className="edit-profile-button"
-              onClick={() => {
-                setEditState(true);
-              }}
-            >
-              Edit Profile
-            </button>
+            {sessionStorage.getItem("userID") === userData.id && (
+              <button
+                className="edit-profile-button"
+                onClick={() => {
+                  setEditState(true);
+                }}
+              >
+                Edit Profile
+              </button>
+            )}
           </div>
           {editState ? (
             <EditProfile
@@ -165,6 +192,7 @@ export const ProfileDeatils = () => {
               ) : userSelected === "likes" ? (
                 userSelectedInfo && userSelectedInfo.length > 0 ? (
                   <UserLikedPhotos
+                  userID={userData.id}
                     userSelectedInfo={userSelectedInfo}
                     handleLikes={handleLikes}
                   />
@@ -173,7 +201,7 @@ export const ProfileDeatils = () => {
                 )
               ) : userSelected === "collections" ? (
                 userSelectedInfo && userSelectedInfo.length > 0 ? (
-                  <SelectedCollections userSelectedInfo={userSelectedInfo} />
+                  <SelectedCollections userSelectedInfo={userSelectedInfo} userSelectedInformation={userSelectedInformation} userData={userData}/>
                 ) : (
                   <p>No Collections</p>
                 )

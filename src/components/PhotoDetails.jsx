@@ -47,7 +47,7 @@ export const PhotoDetails = (props) => {
                       </span>
                     </div>
                   </div>
-                  {auth !=null && <button onClick={handleEditPhoto}>Edit</button>}
+                  {auth !=null && sessionStorage.getItem("userID") === props.photoDetails.user.id? (<button onClick={handleEditPhoto}>Edit</button>):""}
                   
                 </div>
               </div>
